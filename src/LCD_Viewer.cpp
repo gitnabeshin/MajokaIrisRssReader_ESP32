@@ -30,6 +30,7 @@
 #define LGFX_ESP_WROVER_KIT
 #include <LovyanGFX.hpp>
 
+#include "LCD_Viewer.h"
 #include "HttpsRssGet.h"
 
 struct LGFX_Config {
@@ -114,7 +115,7 @@ inline void lcd_buffer_write(void) {
     lcd.endWrite();
 }
 
-void LCD_Viewer_loop(void) {
+bool LCD_Viewer_loop(void) {
 
     uint32_t textlen = str.length();
     const char *pText = str.c_str();
@@ -134,17 +135,30 @@ void LCD_Viewer_loop(void) {
     }
 
     lcd_buffer_write();
+
+    if(textpos >= textlen){
+        return false;
+    }
+    return true;
 }
 
-void LCD_Viewer_drawString(String inStr){
+void LCD_Viewer_drawString(String inStr, Color_Txt color){
     str = inStr;
-    for(int i=0; i<str.length()*20; i++) {
-        LCD_Viewer_loop();
+
+    if(color==LCD_TEXT_COLOR_RED){
+        buf.setTextColor(TFT_RED, TFT_WHITE);
+    } else if(color==LCD_TEXT_COLOR_BLUE) {
+        buf.setTextColor(TFT_BLUE, TFT_WHITE);
+    } else {
+        buf.setTextColor(TFT_WHITE);
     }
+
+    while( LCD_Viewer_loop() ){}
 
     delay(800);
     buf.clear();
     buf.setCursor(0, 0);
+    buf.setTextColor(TFT_WHITE);
 }
 
 void LCD_Viewer_drawRSSString(void){

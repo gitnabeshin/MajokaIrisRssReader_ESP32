@@ -20,7 +20,7 @@
 
 // Display message for switching to AP Mode
 void switchToAPMode( WiFiManager* pWiFiManager ){
-    LCD_Viewer_drawString("Please Setup WiFi.  SSID:AutoConnectAP, http://192.168.4.1 ");
+    LCD_Viewer_drawString("      Please Setup WiFi.        SSID:AutoConnectAP, http://192.168.4.1 ", LCD_TEXT_COLOR_BLUE);
 }
 
 void setup() {
@@ -32,7 +32,7 @@ void setup() {
     WiFiManager wifiManager;
 
     // Should be callbacked
-    LCD_Viewer_drawString(" Yahoo News Viewer    ");
+    LCD_Viewer_drawString("                ESP32  Yahoo News Viewer      ", LCD_TEXT_COLOR_RED);
 
     // Set callback function to WiFiManager(AP Mode switching)
     wifiManager.setAPCallback( switchToAPMode );
@@ -51,7 +51,7 @@ void setup() {
 
     Serial.println("SSID: " + WiFi.SSID() + "  IP: " + WiFi.localIP().toString() + "connected.");
     // LCD_Viewer_drawString("SSID: " + WiFi.SSID() + "  IP: " + WiFi.localIP().toString());
-    LCD_Viewer_drawString(" Connected SSID: " + WiFi.SSID() + "     ");
+    LCD_Viewer_drawString("   WiFi connected.                  SSID: " + WiFi.SSID() + "  ", LCD_TEXT_COLOR_BLUE);
 }
 
 void loop() {
